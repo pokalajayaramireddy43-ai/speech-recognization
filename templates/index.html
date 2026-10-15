@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vocalis AI - Speech Analytics</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                V
+            </div>
+
+            <div>
+                <h2>Vocalis AI</h2>
+                <span>Speech Analytics</span>
+            </div>
+
+        </div>
+
+        <div class="nav-badge">
+            AI Speech Coach
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    SPEAK • ANALYZE • IMPROVE
+                </div>
+
+                <h1>
+                    Speak better.
+                    <span>Improve faster.</span>
+                </h1>
+
+                <p>
+                    Record your speech and discover
+                    exactly where your delivery can
+                    improve.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- RECORDING -->
+
+        <section class="card recorder-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        STEP 01
+                    </span>
+
+                    <h2>
+                        Record or upload your speech
+                    </h2>
+
+                    <p>
+                        Speak naturally. Vocalis AI will
+                        analyze your delivery.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="record-controls">
+
+                <button
+                    id="recordBtn"
+                    class="primary-btn"
+                >
+                    <span class="button-icon">●</span>
+                    Start Recording
+                </button>
+
+                <button
+                    id="stopBtn"
+                    class="secondary-btn"
+                    disabled
+                >
+                    Stop Recording
+                </button>
+
+                <label
+                    for="audioFile"
+                    class="upload-btn"
+                >
+                    Upload Audio
+                </label>
+
+                <input
+                    type="file"
+                    id="audioFile"
+                    accept="audio/*"
+                    hidden
+                >
+
+            </div>
+
+
+            <div
+                id="recordingStatus"
+                class="recording-status"
+            >
+                Ready to record
+            </div>
+
+
+            <audio
+                id="audioPreview"
+                controls
+                hidden
+            ></audio>
+
+
+            <button
+                id="analyzeBtn"
+                class="analyze-btn"
+                disabled
+            >
+                Analyze My Speech
+            </button>
+
+
+            <div
+                id="loading"
+                class="loading"
+                hidden
+            >
+                <div class="spinner"></div>
+
+                <span>
+                    Analyzing your speech...
+                </span>
+            </div>
+
+        </section>
+
+
+        <!-- DASHBOARD -->
+
+        <section
+            id="dashboard"
+            class="dashboard"
+            hidden
+        >
+
+            <!-- OVERALL SCORE -->
+
+            <section class="card score-card">
+
+                <div class="score-ring">
+
+                    <div class="score-ring-inner">
+
+                        <strong id="scoreRingValue">
+                            0
+                        </strong>
+
+                        <span>/100</span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="score-info">
+
+                    <span class="section-label">
+                        OVERALL PERFORMANCE
+                    </span>
+
+                    <h2 id="overallScore">
+                        0
+                    </h2>
+
+                    <p id="scoreMessage">
+                        Your speech analysis is ready.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- METRICS -->
+
+            <section class="metrics-grid">
+
+                <div class="metric-card">
+
+                    <span class="metric-icon">
+                        ⚡
+                    </span>
+
+                    <span class="metric-label">
+                        SPEAKING PACE
+                    </span>
+
+                    <strong id="wpm">
+                        0
+                    </strong>
+
+                    <small>
+                        words / min
+                    </small>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <span class="metric-icon">
+                        💬
+                    </span>
+
+                    <span class="metric-label">
+                        FILLERS
+                    </span>
+
+                    <strong id="fillers">
+                        0
+                    </strong>
+
+                    <small>
+                        detected
+                    </small>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <span class="metric-icon">
+                        ⏸
+                    </span>
+
+                    <span class="metric-label">
+                        PAUSES
+                    </span>
+
+                    <strong id="pauses">
+                        0
+                    </strong>
+
+                    <small>
+                        long pauses
+                    </small>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <span class="metric-icon">
+                        ↻
+                    </span>
+
+                    <span class="metric-label">
+                        REPETITIONS
+                    </span>
+
+                    <strong id="repetitions">
+                        0
+                    </strong>
+
+                    <small>
+                        repeated words
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- RUBRIC -->
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            PERFORMANCE RUBRIC
+                        </span>
+
+                        <h2>
+                            Delivery breakdown
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rubric-list">
+
+                    <div class="rubric-item">
+
+                        <div class="rubric-top">
+
+                            <span>
+                                Fluency
+                            </span>
+
+                            <strong id="fluencyScore">
+                                0
+                            </strong>
+
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                id="fluencyBar"
+                                class="progress-bar"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="rubric-item">
+
+                        <div class="rubric-top">
+
+                            <span>
+                                Pace
+                            </span>
+
+                            <strong id="paceScore">
+                                0
+                            </strong>
+
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                id="paceBar"
+                                class="progress-bar"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="rubric-item">
+
+                        <div class="rubric-top">
+
+                            <span>
+                                Clarity
+                            </span>
+
+                            <strong id="clarityScore">
+                                0
+                            </strong>
+
+                        </div>
+
+                        <div class="progress">
+                            <div
+                                id="clarityBar"
+                                class="progress-bar"
+                            ></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- TEMPORAL TIMELINE -->
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            TEMPORAL FLAW GROUNDING
+                        </span>
+
+                        <h2>
+                            Where did the delivery fail?
+                        </h2>
+
+                        <p>
+                            Click an event to jump to
+                            that moment in your speech.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="timeline"
+                    class="timeline"
+                ></div>
+
+
+                <div
+                    id="timelineScale"
+                    class="timeline-scale"
+                ></div>
+
+
+                <div class="legend">
+
+                    <div>
+                        <span class="legend-dot filler-dot"></span>
+                        Filler
+                    </div>
+
+                    <div>
+                        <span class="legend-dot pause-dot"></span>
+                        Pause
+                    </div>
+
+                    <div>
+                        <span class="legend-dot repetition-dot"></span>
+                        Repetition
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- TRANSCRIPT -->
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            TRANSCRIPT
+                        </span>
+
+                        <h2>
+                            What you said
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="transcript"
+                    class="transcript"
+                >
+                    Your transcript will appear here.
+                </div>
+
+            </section>
+
+
+            <!-- FEEDBACK -->
+
+            <section class="card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            AI COACHING
+                        </span>
+
+                        <h2>
+                            How to improve
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="feedback"
+                    class="feedback"
+                ></div>
+
+            </section>
+
+
+            <!-- PRACTICE -->
+
+            <section class="practice-card">
+
+                <div>
+
+                    <span class="section-label">
+                        NEXT STEP
+                    </span>
+
+                    <h2>
+                        Ready for another attempt?
+                    </h2>
+
+                    <p>
+                        Practice the same speech again
+                        and compare your delivery.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="practiceBtn"
+                    class="primary-btn"
+                >
+                    Practice Again
+                </button>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Vocalis AI • Contrastive Speech Analytics
+        </p>
+
+    </footer>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
+
+</body>
+
+</html>

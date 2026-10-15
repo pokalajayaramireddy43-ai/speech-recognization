@@ -1,0 +1,7 @@
+Flask
+openai-whisper
+torch
+librosa
+soundfile
+numpy
+scipy
